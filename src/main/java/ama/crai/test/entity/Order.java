@@ -1,18 +1,20 @@
 package ama.crai.test.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "CUSTOM_ORDER")
+@Table(name = "orders")
 public class Order {
 
-    private @Id @GeneratedValue Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
+    @Column(name = "description")
     private String description;
+
+    @Column(name = "status")
     private Status status;
 
     public Order() {
