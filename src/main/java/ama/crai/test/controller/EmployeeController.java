@@ -37,26 +37,16 @@ public class EmployeeController {
                 linkTo(methodOn(EmployeeController.class).all()).withSelfRel());
     }
 
-    @RequestMapping(
-            value = "/orders",
-            params = "id",
-            method = RequestMethod.GET
-    )
-    @ResponseBody
-    Employee getEmployee(@RequestParam("id") Long id) {
+    @GetMapping("/employee/{id}")
+    Employee getEmployee(@RequestBody Long id) {
         if (repository.findById(id).isPresent()) {
             return repository.findById(id).get();
         }
         throw new EmployeeNotFoundException(id);
     }
 
-    @RequestMapping(
-            value = "/orders",
-            params = "id",
-            method = RequestMethod.GET
-    )
-    @ResponseBody
-    public EntityModel<Employee> one(@RequestParam("id") Long id) {
+    @GetMapping("/employees/{id}")
+    public EntityModel<Employee> one(@PathVariable Long id) {
         Employee employee = repository.findById(id).orElseThrow(() -> new EmployeeNotFoundException(id));
         return assembler.toModel(employee);
     }
