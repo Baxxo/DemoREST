@@ -23,23 +23,28 @@ public class LoadDatabase {
     @Autowired
     private OrderRepository orderRepository;
 
+    /**
+     * Loads the database with some initial data.
+     *
+     * @return CommandLineRunner
+     */
     @Bean
     CommandLineRunner initDatabase() {
         return args -> {
-            Employee bilbo = new Employee("Bilbo", "Baggins", "burglar");
-            log.info("Preloading " + bilbo);
-            employeeRepository.save(bilbo);
-
-            Employee frodo = new Employee("Frodo", "Baggins", "thief");
-            log.info("Preloading " + frodo);
-            employeeRepository.save(frodo);
-
-            employeeRepository.findAll().forEach(employee -> log.info("Preloaded " + employee));
-
-            orderRepository.save(new Order("MacBook Pro", Status.COMPLETED));
-            orderRepository.save(new Order("iPhone", Status.IN_PROGRESS));
-
-            orderRepository.findAll().forEach(order -> log.info("Preloaded " + order));
+//            Employee bilbo = new Employee("Bilbo", "Baggins", "burglar");
+//            log.info("Preloading " + bilbo);
+//            employeeRepository.save(bilbo);
+//
+//            Employee frodo = new Employee("Frodo", "Baggins", "thief");
+//            log.info("Preloading " + frodo);
+//            employeeRepository.save(frodo);
+//
+//            employeeRepository.findAll().forEach(employee -> log.info("Preloaded " + employee));
+//
+//            orderRepository.save(new Order("MacBook Pro", Status.COMPLETED));
+//            orderRepository.save(new Order("iPhone", Status.IN_PROGRESS));
+//
+//            orderRepository.findAll().forEach(order -> log.info("Preloaded " + order));
         };
     }
 }
