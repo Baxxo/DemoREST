@@ -21,6 +21,7 @@ public class EmployeeTestingWebApplicationTest {
 
     @Test
     public void shouldReturnDefaultMessage() throws Exception {
-        this.mockMvc.perform(get("/employees/")).andDo(print()).andExpect(status().isOk()).andExpect(content().string(containsString("employeeList")));
+        this.mockMvc.perform(get("/employees/")).andDo(print()).andExpect(status().isOk())
+                .andExpect(content().string(containsString("employeeList")));
     }
 }
