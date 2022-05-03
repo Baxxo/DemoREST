@@ -25,8 +25,6 @@ class EmployeeControllerTest {
     @Autowired
     private EmployeeController employeeController;
 
-    private boolean initialized = false;
-
     private Long id = 1L;
     private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
@@ -35,16 +33,13 @@ class EmployeeControllerTest {
      */
     @PostConstruct
     public void setUp() {
-        if (!initialized) {
-            Employee employee = new Employee("testFirstName", "testLastName", "testRole");
+        Employee employee = new Employee("testFirstName", "testLastName", "testRole");
 
-            ResponseEntity<EntityModel<Employee>> entityModelResponseEntity = employeeController.newEmployee(employee);
+        ResponseEntity<EntityModel<Employee>> entityModelResponseEntity = employeeController.newEmployee(employee);
 
-            id = Objects.requireNonNull(Objects.requireNonNull(entityModelResponseEntity.getBody()).getContent()).getId();
+        id = Objects.requireNonNull(Objects.requireNonNull(entityModelResponseEntity.getBody()).getContent()).getId();
 
-            log.info("Preloading " + id);
-        }
-        initialized = true;
+        log.info("Preloading " + id);
     }
 
     @Test
