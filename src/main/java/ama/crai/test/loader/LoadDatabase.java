@@ -31,20 +31,33 @@ public class LoadDatabase {
     @Bean
     CommandLineRunner initDatabase() {
         return args -> {
-//            Employee bilbo = new Employee("Bilbo", "Baggins", "burglar");
-//            log.info("Preloading " + bilbo);
-//            employeeRepository.save(bilbo);
-//
-//            Employee frodo = new Employee("Frodo", "Baggins", "thief");
-//            log.info("Preloading " + frodo);
-//            employeeRepository.save(frodo);
-//
-//            employeeRepository.findAll().forEach(employee -> log.info("Preloaded " + employee));
-//
-//            orderRepository.save(new Order("MacBook Pro", Status.COMPLETED));
-//            orderRepository.save(new Order("iPhone", Status.IN_PROGRESS));
-//
-//            orderRepository.findAll().forEach(order -> log.info("Preloaded " + order));
+            log.info("Preloading employees");
+
+            Employee bilbo = new Employee("Bilbo", "Baggins", "burglar");
+            bilbo.setId(1L);
+            log.info("Preloading " + bilbo);
+            employeeRepository.save(bilbo);
+
+            Employee frodo = new Employee("Frodo", "Baggins", "thief");
+            frodo.setId(2L);
+            log.info("Preloading " + frodo);
+            employeeRepository.save(frodo);
+
+            employeeRepository.findAll().forEach(employee -> log.info("Preloaded " + employee));
+
+            log.info("Preloading orders");
+
+            Order macBook = new Order("MacBook Pro", Status.COMPLETED);
+            macBook.setId(1L);
+            log.info("Preloading " + macBook);
+            orderRepository.save(macBook);
+
+            Order iPhone = new Order("iPhone", Status.IN_PROGRESS);
+            iPhone.setId(2L);
+            log.info("Preloading " + iPhone);
+            orderRepository.save(iPhone);
+
+            orderRepository.findAll().forEach(order -> log.info("Preloaded " + order));
         };
     }
 }

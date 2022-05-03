@@ -76,11 +76,10 @@ public class Employee {
 
     @Override
     public String toString() {
-        return "Employee{" +
-                "id=" + id +
-                ", name='" + firstName + '\'' +
-                ", surname='" + lastName + '\'' +
-                ", role='" + role + '\'' +
-                '}';
+        return String.format("Employee{id=%d, " +
+                        "firstName='%s', " +
+                        "lastName='%s', " +
+                        "role='%s'}",
+                id, firstName, lastName, role);
     }
 }

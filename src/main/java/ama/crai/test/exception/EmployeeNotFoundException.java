@@ -1,7 +1,9 @@
 package ama.crai.test.exception;
 
-public class EmployeeNotFoundException extends RuntimeException{
+public class EmployeeNotFoundException extends RuntimeException {
+    public static final String MESSAGE = "Could not find employee ";
+
     public EmployeeNotFoundException(Long id) {
-        super("Could not find employee " + id);
+        super(MESSAGE + id);
     }
 }

@@ -1,4 +1,4 @@
-package ama.crai.test.exception;
+package ama.crai.test.advice;
 
 import ama.crai.test.exception.EmployeeNotFoundException;
 import org.springframework.http.HttpStatus;

@@ -2,6 +2,7 @@ package ama.crai.test;
 
 import ama.crai.test.controller.EmployeeController;
 import ama.crai.test.entity.Employee;
+import ama.crai.test.exception.EmployeeNotFoundException;
 import ama.crai.test.loader.LoadDatabase;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -17,6 +18,8 @@ import java.util.Collection;
 import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -67,6 +70,16 @@ class EmployeeControllerTest {
     }
 
     @Test
+    void testGetEmployeeByIdNotFound() {
+        Exception exception = assertThrows(EmployeeNotFoundException.class, () -> employeeController.one(100L).getContent());
+
+        String expectedMessage = EmployeeNotFoundException.MESSAGE;
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+    @Test
     void testInsertNewEmployee() {
         Employee employee = new Employee("testFirstName", "testLastName", "testRole");
 
@@ -80,6 +93,15 @@ class EmployeeControllerTest {
         Employee employee = new Employee("testFirstName", "testLastName", "testRole");
 
         ResponseEntity<?> responseEntity = employeeController.replaceEmployee(employee, id);
+
+        assertThat(responseEntity.getStatusCodeValue()).isEqualTo(201);
+    }
+
+    @Test
+    void testReplaceEmployeeNotPresent() {
+        Employee employee = new Employee("testFirstName", "testLastName", "testRole");
+
+        ResponseEntity<?> responseEntity = employeeController.replaceEmployee(employee, id + 1);
 
         assertThat(responseEntity.getStatusCodeValue()).isEqualTo(201);
     }
