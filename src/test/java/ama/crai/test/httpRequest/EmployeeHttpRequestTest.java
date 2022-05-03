@@ -1,4 +1,4 @@
-package ama.crai.test;
+package ama.crai.test.httpRequest;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

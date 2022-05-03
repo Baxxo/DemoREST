@@ -3,7 +3,6 @@ package ama.crai.test.controller;
 import ama.crai.test.entity.Employee;
 import ama.crai.test.exception.EmployeeNotFoundException;
 import ama.crai.test.loader.LoadDatabase;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -41,6 +40,7 @@ class EmployeeControllerTest {
 
         log.info("Preloading " + id);
     }
+
     @Test
     void greeting() {
         String greeting = employeeController.greeting();
@@ -51,13 +51,13 @@ class EmployeeControllerTest {
     @Test
     void all() {
         Collection<EntityModel<Employee>> entities = employeeController.all().getContent();
+        assertThat(entities.isEmpty()).isFalse();
 
         entities.forEach(entity -> {
             Employee employee = entity.getContent();
             assertThat(employee).isNotNull();
         });
 
-        assertThat(entities.isEmpty()).isFalse();
     }
 
     @Test
@@ -65,6 +65,7 @@ class EmployeeControllerTest {
         Employee employee = employeeController.one(id).getContent();
 
         assertThat(employee).isNotNull();
+        assertThat(employee.getId()).isEqualTo(id);
     }
 
     @Test
@@ -84,6 +85,11 @@ class EmployeeControllerTest {
         ResponseEntity<EntityModel<Employee>> entityModelResponseEntity = employeeController.newEmployee(employee);
 
         assertThat(entityModelResponseEntity.getStatusCodeValue()).isEqualTo(201);
+        assertThat(entityModelResponseEntity.getBody()).isNotNull();
+        assertThat(entityModelResponseEntity.getBody().getContent()).isNotNull();
+        assertThat(entityModelResponseEntity.getBody().getContent().getFirstName()).isEqualTo("testFirstName");
+        assertThat(entityModelResponseEntity.getBody().getContent().getLastName()).isEqualTo("testLastName");
+        assertThat(entityModelResponseEntity.getBody().getContent().getRole()).isEqualTo("testRole");
     }
 
     @Test
