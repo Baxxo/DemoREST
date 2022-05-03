@@ -59,7 +59,11 @@ public class EmployeeController {
         return assembler.toModel(employee);
     }
 
-    @PostMapping("/employees")
+    //    @PostMapping("/employees")
+    @RequestMapping(
+            value = "/employees",
+            method = RequestMethod.POST
+    )
     public ResponseEntity<EntityModel<Employee>> newEmployee(@RequestBody Employee employee) {
         EntityModel<Employee> entityModel = assembler.toModel(repository.save(employee));
 
@@ -67,8 +71,13 @@ public class EmployeeController {
                 .body(entityModel);
     }
 
-    @PutMapping("/employees/{id}")
-    public ResponseEntity<?> replaceEmployee(@RequestBody Employee newEmployee, @PathVariable Long id) {
+    //    @PutMapping("/employees/{id}")
+    @RequestMapping(
+            value = "/employees",
+            params = "id",
+            method = RequestMethod.PUT
+    )
+    public ResponseEntity<?> replaceEmployee(@RequestBody Employee newEmployee, @RequestParam("id") Long id) {
 
         Employee updatedEmployee = repository.findById(id)
                 .map(employee -> {
@@ -89,8 +98,13 @@ public class EmployeeController {
                 .body(entityModel);
     }
 
-    @DeleteMapping("/employees/{id}")
-    public ResponseEntity<?> deleteEmployee(@PathVariable Long id) {
+    //    @DeleteMapping("/employees/{id}")
+    @RequestMapping(
+            value = "/employees",
+            params = "id",
+            method = RequestMethod.DELETE
+    )
+    public ResponseEntity<?> deleteEmployee(@RequestParam("id") Long id) {
         repository.deleteById(id);
 
         return ResponseEntity.noContent().build();

@@ -1,41 +1,38 @@
-package ama.crai.test;
+package ama.crai.test.controller;
 
-import ama.crai.test.controller.EmployeeController;
 import ama.crai.test.entity.Employee;
 import ama.crai.test.exception.EmployeeNotFoundException;
 import ama.crai.test.loader.LoadDatabase;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 
-import javax.annotation.PostConstruct;
 import java.util.Collection;
 import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
 class EmployeeControllerTest {
-
     @Autowired
     private EmployeeController employeeController;
 
     private Long id = 1L;
+
     private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
-    /**
-     * this method is used to initialize {@link EmployeeControllerTest#id}
-     */
-    @PostConstruct
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         Employee employee = new Employee("testFirstName", "testLastName", "testRole");
 
         ResponseEntity<EntityModel<Employee>> entityModelResponseEntity = employeeController.newEmployee(employee);
@@ -44,14 +41,15 @@ class EmployeeControllerTest {
 
         log.info("Preloading " + id);
     }
-
     @Test
-    void contextLoads() {
-        assertThat(employeeController).isNotNull();
+    void greeting() {
+        String greeting = employeeController.greeting();
+
+        assertEquals("Hello, World", greeting);
     }
 
     @Test
-    void testGetEmployee() {
+    void all() {
         Collection<EntityModel<Employee>> entities = employeeController.all().getContent();
 
         entities.forEach(entity -> {
@@ -63,14 +61,14 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void testGetEmployeeById() {
+    void one() {
         Employee employee = employeeController.one(id).getContent();
 
         assertThat(employee).isNotNull();
     }
 
     @Test
-    void testGetEmployeeByIdNotFound() {
+    void oneNotFound() {
         Exception exception = assertThrows(EmployeeNotFoundException.class, () -> employeeController.one(100L).getContent());
 
         String expectedMessage = EmployeeNotFoundException.MESSAGE;
@@ -80,7 +78,7 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void testInsertNewEmployee() {
+    void newEmployee() {
         Employee employee = new Employee("testFirstName", "testLastName", "testRole");
 
         ResponseEntity<EntityModel<Employee>> entityModelResponseEntity = employeeController.newEmployee(employee);
@@ -89,7 +87,7 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void testReplaceEmployee() {
+    void replaceEmployee() {
         Employee employee = new Employee("testFirstName", "testLastName", "testRole");
 
         ResponseEntity<?> responseEntity = employeeController.replaceEmployee(employee, id);
@@ -98,7 +96,7 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void testReplaceEmployeeNotPresent() {
+    void replaceEmployeeNotExist() {
         Employee employee = new Employee("testFirstName", "testLastName", "testRole");
 
         ResponseEntity<?> responseEntity = employeeController.replaceEmployee(employee, id + 1);
@@ -107,9 +105,14 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void testDeleteEmployee() {
+    void deleteEmployee() {
         ResponseEntity<?> responseEntity = employeeController.deleteEmployee(id);
 
         assertThat(responseEntity.getStatusCodeValue()).isEqualTo(204);
+    }
+
+    @Test
+    void deleteEmployeeNotExist() {
+        assertThrows(EmptyResultDataAccessException.class, () -> employeeController.deleteEmployee(100L));
     }
 }
