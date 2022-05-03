@@ -60,7 +60,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/employees")
-    ResponseEntity<EntityModel<Employee>> newEmployee(@RequestBody Employee employee) {
+    public ResponseEntity<EntityModel<Employee>> newEmployee(@RequestBody Employee employee) {
         EntityModel<Employee> entityModel = assembler.toModel(repository.save(employee));
 
         return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
