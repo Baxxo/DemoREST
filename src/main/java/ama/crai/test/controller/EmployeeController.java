@@ -59,7 +59,6 @@ public class EmployeeController {
         return assembler.toModel(employee);
     }
 
-    //    @PostMapping("/employees")
     @RequestMapping(
             value = "/employees",
             method = RequestMethod.POST
@@ -71,7 +70,6 @@ public class EmployeeController {
                 .body(entityModel);
     }
 
-    //    @PutMapping("/employees/{id}")
     @RequestMapping(
             value = "/employees",
             params = "id",
@@ -98,7 +96,6 @@ public class EmployeeController {
                 .body(entityModel);
     }
 
-    //    @DeleteMapping("/employees/{id}")
     @RequestMapping(
             value = "/employees",
             params = "id",
