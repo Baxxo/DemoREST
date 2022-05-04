@@ -1,8 +1,8 @@
 package ama.crai.test.controller;
 
+import ama.crai.test.configuration.LoadDatabase;
 import ama.crai.test.entity.Order;
 import ama.crai.test.entity.Status;
-import ama.crai.test.loader.LoadDatabase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;

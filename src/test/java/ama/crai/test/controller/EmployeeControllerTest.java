@@ -1,8 +1,8 @@
 package ama.crai.test.controller;
 
+import ama.crai.test.configuration.LoadDatabase;
 import ama.crai.test.entity.Employee;
 import ama.crai.test.exception.EmployeeNotFoundException;
-import ama.crai.test.loader.LoadDatabase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -39,13 +39,6 @@ class EmployeeControllerTest {
         id = Objects.requireNonNull(Objects.requireNonNull(entityModelResponseEntity.getBody()).getContent()).getId();
 
         log.info("Preloading " + id);
-    }
-
-    @Test
-    void greeting() {
-        String greeting = employeeController.greeting();
-
-        assertEquals("Hello, World", greeting);
     }
 
     @Test

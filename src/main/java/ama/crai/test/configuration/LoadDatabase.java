@@ -1,4 +1,4 @@
-package ama.crai.test.loader;
+package ama.crai.test.configuration;
 
 import ama.crai.test.entity.Employee;
 import ama.crai.test.entity.Order;

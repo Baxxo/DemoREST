@@ -17,6 +17,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
+@RequestMapping("/employees")
 public class EmployeeController {
 
     private final EmployeeRepository repository;
@@ -27,12 +28,7 @@ public class EmployeeController {
         this.assembler = assembler;
     }
 
-    @RequestMapping("/")
-    public @ResponseBody String greeting() {
-        return "Hello, World";
-    }
-
-    @GetMapping("/employees")
+    @GetMapping()
     public CollectionModel<EntityModel<Employee>> all() {
         List<EntityModel<Employee>> employees = repository.findAll().stream()
                 .map(assembler::toModel)
@@ -50,7 +46,6 @@ public class EmployeeController {
      */
     @ResponseBody
     @RequestMapping(
-            value = "/employees",
             params = "id",
             method = RequestMethod.GET
     )
@@ -59,10 +54,7 @@ public class EmployeeController {
         return assembler.toModel(employee);
     }
 
-    @RequestMapping(
-            value = "/employees",
-            method = RequestMethod.POST
-    )
+    @PostMapping
     public ResponseEntity<EntityModel<Employee>> newEmployee(@RequestBody Employee employee) {
         EntityModel<Employee> entityModel = assembler.toModel(repository.save(employee));
 
@@ -71,7 +63,6 @@ public class EmployeeController {
     }
 
     @RequestMapping(
-            value = "/employees",
             params = "id",
             method = RequestMethod.PUT
     )
@@ -97,7 +88,6 @@ public class EmployeeController {
     }
 
     @RequestMapping(
-            value = "/employees",
             params = "id",
             method = RequestMethod.DELETE
     )
