@@ -47,7 +47,8 @@ public class DemoAs400 {
             ResultSet rs = stmt.executeQuery("select * from AMS5DAT.clienti");
 
             while (rs.next()) {
-                System.out.println(rs + "\n");
+                System.out.println(rs.getString("CDCLCL") + "\n");
+
             }
 
             rs.close();
@@ -57,15 +58,6 @@ public class DemoAs400 {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-//        try {
-//            System.out.println("Connecting to AS400");
-//            java.sql.Connection conn = java.sql.DriverManager.
-//                    getConnection("jdbc:as400://ASAMA:446", "PCS", "PCS");
-//        } catch (Exception e) {
-//            System.out.println("Error connecting to AS400");
-//            e.printStackTrace();
-//        }
     }
 
 }
