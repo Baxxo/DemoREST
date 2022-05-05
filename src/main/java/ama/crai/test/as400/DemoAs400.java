@@ -48,7 +48,6 @@ public class DemoAs400 {
 
             while (rs.next()) {
                 System.out.println(rs.getString("CDCLCL") + "\n");
-
             }
 
             rs.close();
