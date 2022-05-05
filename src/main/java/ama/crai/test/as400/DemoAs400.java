@@ -39,6 +39,8 @@ public class DemoAs400 {
 
             Connection conn = DriverManager.getConnection(URL, userId.trim(), password.trim());
 
+            System.out.println("Connected to iSeries");
+
             conn.close();
 
         } catch (Exception e) {
