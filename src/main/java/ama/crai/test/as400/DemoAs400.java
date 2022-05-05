@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Properties;
 
 @SpringBootApplication
@@ -40,6 +42,15 @@ public class DemoAs400 {
             Connection conn = DriverManager.getConnection(URL, userId.trim(), password.trim());
 
             System.out.println("Connected to iSeries");
+
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("select * from AMS5DAT.clienti");
+
+            while (rs.next()) {
+                System.out.println(rs + "\n");
+            }
+
+            rs.close();
 
             conn.close();
 
