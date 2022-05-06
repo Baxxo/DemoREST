@@ -17,12 +17,26 @@ public class Order {
     @Column(name = "status")
     private Status status;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private Employee employee;
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
     public Order() {
     }
 
-    public Order(String description, Status status) {
+
+    public Order(String description, Status status, Employee employee) {
         this.description = description;
         this.status = status;
+        this.employee = employee;
     }
 
     public Long getId() {

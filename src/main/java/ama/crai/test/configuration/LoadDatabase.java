@@ -31,33 +31,33 @@ public class LoadDatabase {
     @Bean
     CommandLineRunner initDatabase() {
         return args -> {
+
+
             log.info("Preloading employees");
 
             Employee bilbo = new Employee("Bilbo", "Baggins", "burglar");
-            bilbo.setId(1L);
             log.info("Preloading " + bilbo);
-            employeeRepository.save(bilbo);
 
             Employee frodo = new Employee("Frodo", "Baggins", "thief");
-            frodo.setId(2L);
             log.info("Preloading " + frodo);
-            employeeRepository.save(frodo);
 
-            employeeRepository.findAll().forEach(employee -> log.info("Preloaded " + employee));
+            // --------------------------------------------------------------------------
 
             log.info("Preloading orders");
 
-            Order macBook = new Order("MacBook Pro", Status.COMPLETED);
-            macBook.setId(1L);
+            Order macBook = new Order("MacBook Pro", Status.COMPLETED, frodo);
             log.info("Preloading " + macBook);
-            orderRepository.save(macBook);
 
-            Order iPhone = new Order("iPhone", Status.IN_PROGRESS);
-            iPhone.setId(2L);
+            Order iPhone = new Order("iPhone", Status.IN_PROGRESS, bilbo);
             log.info("Preloading " + iPhone);
-            orderRepository.save(iPhone);
 
-            orderRepository.findAll().forEach(order -> log.info("Preloaded " + order));
+            // --------------------------------------------------------------------------
+
+            Employee save = employeeRepository.save(bilbo);
+            Employee save1 = employeeRepository.save(frodo);
+            log.info("Saved " + save);
+            log.info("Saved " + save1);
+
         };
     }
 }

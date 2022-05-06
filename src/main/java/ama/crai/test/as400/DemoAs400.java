@@ -2,7 +2,6 @@ package ama.crai.test.as400;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;

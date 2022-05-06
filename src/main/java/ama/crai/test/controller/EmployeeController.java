@@ -2,6 +2,7 @@ package ama.crai.test.controller;
 
 import ama.crai.test.assembler.EmployeeModelAssembler;
 import ama.crai.test.entity.Employee;
+import ama.crai.test.entity.Order;
 import ama.crai.test.exception.EmployeeNotFoundException;
 import ama.crai.test.repository.EmployeeRepository;
 import org.springframework.hateoas.CollectionModel;
@@ -96,4 +97,14 @@ public class EmployeeController {
 
         return ResponseEntity.noContent().build();
     }
+
+    @RequestMapping(
+            value = "/getOrder",
+            params = "id",
+            method = RequestMethod.GET
+    )
+    public @ResponseBody List<Order> getOrderByUserId(@RequestParam("id") Long id) {
+        return repository.findOrdersByUserId(id);
+    }
+
 }

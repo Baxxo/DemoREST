@@ -1,6 +1,7 @@
 package ama.crai.test.controller;
 
 import ama.crai.test.configuration.LoadDatabase;
+import ama.crai.test.entity.Employee;
 import ama.crai.test.entity.Order;
 import ama.crai.test.entity.Status;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,7 +33,9 @@ class OrderControllerTest {
 
     @BeforeEach
     void setUp() {
-        Order order = new Order("testDescription", Status.IN_PROGRESS);
+        Employee employee = new Employee("testName", "testSurname", "testRole");
+
+        Order order = new Order("testDescription", Status.IN_PROGRESS, employee);
 
         ResponseEntity<EntityModel<Order>> entityModelResponseEntity = orderController.newOrder(order);
 
@@ -60,7 +63,8 @@ class OrderControllerTest {
 
     @Test
     void newOrder() {
-        Order order = new Order("testDescription2", Status.COMPLETED);
+        Employee employee = new Employee("testName1", "testSurname1", "testRole1");
+        Order order = new Order("testDescription2", Status.COMPLETED, employee);
 
         ResponseEntity<EntityModel<Order>> entityModelResponseEntity = orderController.newOrder(order);
 
@@ -88,7 +92,7 @@ class OrderControllerTest {
     }
 
     @Test
-    void cancerCompletedOrder(){
+    void cancerCompletedOrder() {
         orderController.complete(id);
         ResponseEntity<?> cancel = orderController.cancel(id);
         assertThat(cancel.getStatusCodeValue()).isEqualTo(HttpStatus.METHOD_NOT_ALLOWED.value());
@@ -114,7 +118,7 @@ class OrderControllerTest {
     }
 
     @Test
-    void completeCanceledOrder(){
+    void completeCanceledOrder() {
         orderController.cancel(id);
         ResponseEntity<?> complete = orderController.complete(id);
         assertThat(complete.getStatusCodeValue()).isEqualTo(HttpStatus.METHOD_NOT_ALLOWED.value());

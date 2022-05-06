@@ -5,6 +5,8 @@ import ama.crai.test.entity.Order;
 import ama.crai.test.entity.Status;
 import ama.crai.test.exception.OrderNotFoundException;
 import ama.crai.test.repository.OrderRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.MediaTypes;
@@ -14,6 +16,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,6 +26,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
+@RequestMapping("/orders")
 public class OrderController {
 
     private final OrderRepository orderRepository;
@@ -31,7 +37,7 @@ public class OrderController {
         this.assembler = assembler;
     }
 
-    @GetMapping("/orders")
+    @GetMapping()
     public CollectionModel<EntityModel<Order>> all() {
 
         List<EntityModel<Order>> orders = orderRepository.findAll().stream() //
@@ -42,9 +48,7 @@ public class OrderController {
                 linkTo(methodOn(OrderController.class).all()).withSelfRel());
     }
 
-    //    @GetMapping("/orders/{id}")
     @RequestMapping(
-            value = "/orders",
             params = "id",
             method = RequestMethod.GET
     )
@@ -55,7 +59,7 @@ public class OrderController {
         return assembler.toModel(order);
     }
 
-    @PostMapping("/orders")
+    @PostMapping()
     ResponseEntity<EntityModel<Order>> newOrder(@RequestBody Order order) {
 
         order.setStatus(Status.IN_PROGRESS);
@@ -66,8 +70,12 @@ public class OrderController {
                 .body(assembler.toModel(newOrder));
     }
 
-    @DeleteMapping("/orders/{id}/cancel")
-    public ResponseEntity<?> cancel(@PathVariable Long id) {
+    @RequestMapping(
+            value = "/cancel",
+            params = "id",
+            method = RequestMethod.DELETE
+    )
+    public ResponseEntity<?> cancel(@RequestParam("id") Long id) {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new OrderNotFoundException(id));
 
@@ -85,8 +93,12 @@ public class OrderController {
                 );
     }
 
-    @PutMapping("/orders/{id}/complete")
-    public ResponseEntity<?> complete(@PathVariable Long id) {
+    @RequestMapping(
+            value = "/complete",
+            params = "id",
+            method = RequestMethod.PUT
+    )
+    public ResponseEntity<?> complete(@RequestParam("id") Long id) {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new OrderNotFoundException(id));
 

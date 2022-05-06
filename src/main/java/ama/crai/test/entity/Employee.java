@@ -1,8 +1,7 @@
 package ama.crai.test.entity;
 
-import java.util.Objects;
-
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "employees")
@@ -17,6 +16,7 @@ public class Employee {
 
     @Column(name = "last_name")
     private String lastName;
+
     @Column(name = "role")
     private String role;
 
@@ -66,7 +66,10 @@ public class Employee {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Employee other = (Employee) o;
-        return Objects.equals(id, other.id) && Objects.equals(firstName, other.firstName) && Objects.equals(lastName, other.lastName) && Objects.equals(role, other.role);
+        return Objects.equals(id, other.id) &&
+                Objects.equals(firstName, other.firstName) &&
+                Objects.equals(lastName, other.lastName) &&
+                Objects.equals(role, other.role);
     }
 
     @Override
@@ -76,10 +79,11 @@ public class Employee {
 
     @Override
     public String toString() {
-        return String.format("Employee{id=%d, " +
-                        "firstName='%s', " +
-                        "lastName='%s', " +
-                        "role='%s'}",
-                id, firstName, lastName, role);
+        return "Employee{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", role='" + role + '\'' +
+                '}';
     }
 }
